@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'api.apps.ApiConfig',
     'authentication.apps.AuthenticationConfig',
+    'course.apps.CourseConfig',
 
     # Installed 
     'rest_framework',
