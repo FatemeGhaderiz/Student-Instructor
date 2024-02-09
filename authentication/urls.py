@@ -8,3 +8,4 @@ urlpatterns = [
             path('verify/', TokenVerifyView.as_view(),name="verify"),
             ], "jwt")),),
 ]
+
