@@ -3,25 +3,37 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
+from rest_framework.validators import ValidationError
 
 from drf_spectacular.utils import extend_schema
 from django.urls import reverse
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
-from ..models import Content
+from ..models import Content,Course
 from ..services.add_content import create_content 
-from ..permissions import IsUser
+from ..permissions import IsContentCreatorOrReadOnly
 
 
 class AddContentApi(APIView):
-    permission_classes = [IsAuthenticated , IsUser]
+    permission_classes = [ IsAuthenticated , IsContentCreatorOrReadOnly]
     parser_classes = [MultiPartParser]
+    
 
     class InputContentSerializer(serializers.Serializer):
         title = serializers.CharField(max_length=255)
         file = serializers.FileField(required=False)
         text = serializers.CharField(required=False)
+
+        def validate(self, data):
+            request = self.context.get('request')
+            slug = self.context.get('slug')
+            
+            course = Course.objects.get(slug=slug)
+            if request.user != course.instructor:
+                raise ValidationError({"messege":"you are not instructor"})
+            return data
+            
 
     class OutPutContentSerializer(serializers.ModelSerializer):
         course = serializers.SerializerMethodField("get_course")
@@ -31,15 +43,15 @@ class AddContentApi(APIView):
             fields = ("course","title", "file", "text")
 
         def get_course(self, content):
+            
             return content.course.title
-
 
     @extend_schema(
         responses=InputContentSerializer,
         request=OutPutContentSerializer,
     )
     def post(self, request , slug):
-        serializer = self.InputContentSerializer(data=request.data)
+        serializer = self.InputContentSerializer(data=request.data , context = {'request':request , 'slug' : slug})
         serializer.is_valid(raise_exception=True)
         try:
             query = create_content(

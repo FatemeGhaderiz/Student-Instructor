@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils.text import slugify
 
 
-@transaction.atomic
+
 def create_course(*, instructor: BaseUser, title: str, category: str , is_public:bool):
      
 
