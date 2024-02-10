@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings 
 from django.utils.translation import gettext_lazy as _
 
+
+
 class Course(models.Model):
 
     slug = models.SlugField(_('slug'), max_length=100 , unique = True)
@@ -43,3 +45,16 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+
+
+
+
+class CourseEnrollment(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='courses_enrolled',verbose_name=_('student'))
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments',verbose_name=_('course'))    
+
+    def __str__(self):
+        return self.course.title
+    

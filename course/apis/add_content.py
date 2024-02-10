@@ -47,8 +47,8 @@ class AddContentApi(APIView):
             return content.course.title
 
     @extend_schema(
-        responses=InputContentSerializer,
-        request=OutPutContentSerializer,
+        responses=OutPutContentSerializer,
+        request=InputContentSerializer,
     )
     def post(self, request , slug):
         serializer = self.InputContentSerializer(data=request.data , context = {'request':request , 'slug' : slug})
@@ -104,8 +104,8 @@ class AddExerciseApi(APIView):
             return exercise.course.title
 
     @extend_schema(
-        responses=InputExerciseSerializer,
-        request=OutPutExerciseSerializer,
+        request=InputExerciseSerializer,
+        responses=OutPutExerciseSerializer,
     )
     def post(self, request , slug):
         serializer = self.InputExerciseSerializer(data=request.data , context = {'request':request , 'slug' : slug})

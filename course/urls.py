@@ -1,6 +1,7 @@
 from django.urls import path
 from .apis.add_course import  AddCourseApi
 from .apis.add_content import AddContentApi, AddExerciseApi, AddAnnouncementApi
+from .apis.enrollment import EnrollmentApi
 
 
 urlpatterns = [
@@ -8,4 +9,5 @@ urlpatterns = [
     path('add-content/<slug:slug>', AddContentApi.as_view(),name="add-content"),
     path('add-exercise/<slug:slug>', AddExerciseApi.as_view(),name="add-exercise"),
     path('add-announcement/<slug:slug>', AddAnnouncementApi.as_view(),name="add-announcement"),
+    path('enrollment', EnrollmentApi.as_view(),name="enrollment"),
 ]
