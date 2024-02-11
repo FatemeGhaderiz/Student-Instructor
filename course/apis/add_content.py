@@ -6,9 +6,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.validators import ValidationError
 
 from drf_spectacular.utils import extend_schema
-from django.urls import reverse
 
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from ..models import Content,Course,Exercise, Announcement
 from ..services.add_content import create_content , create_exercise , create_announcement
@@ -24,7 +22,6 @@ class AddContentApi(APIView):
         title = serializers.CharField(max_length=255)
         file = serializers.FileField(required=False)
         text = serializers.CharField(required=False)
-
         def validate(self, data):
             request = self.context.get('request')
             slug = self.context.get('slug')
@@ -161,8 +158,8 @@ class AddAnnouncementApi(APIView):
             return content.course.title
 
     @extend_schema(
-        responses=InputAnnouncementSerializer,
-        request=OutPutAnnouncementSerializer,
+        responses=OutPutAnnouncementSerializer,
+        request=InputAnnouncementSerializer,
     )
     def post(self, request , slug):
         serializer = self.InputAnnouncementSerializer(data=request.data , context = {'request':request , 'slug' : slug})

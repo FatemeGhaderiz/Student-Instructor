@@ -31,8 +31,8 @@ class Content(models.Model):
 class Exercise(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='exercises', verbose_name=_('course'))
     title = models.CharField(_('title'),max_length=255)
-    text = models.TextField( blank=True, null=True)
-    file = models.FileField(_('file'), upload_to='contents/', blank=True, null=True)
+    text = models.TextField( _('text'),blank=True, null=True)
+    file = models.FileField(_('file'), upload_to='exercise/', blank=True, null=True)
     deadline = models.DateField()
 
     def __str__(self):
@@ -41,13 +41,11 @@ class Exercise(models.Model):
 class Announcement(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='announcements', verbose_name=_('course'))
     title = models.CharField(_('title'),max_length=255)
-    text = models.TextField()
+    text = models.TextField( _('text'))
 
     def __str__(self):
         return self.title
     
-
-
 
 
 
@@ -58,3 +56,5 @@ class CourseEnrollment(models.Model):
     def __str__(self):
         return self.course.title
     
+
+
