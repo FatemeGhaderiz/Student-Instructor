@@ -29,6 +29,7 @@ class Content(models.Model):
         return self.title
 
 class Exercise(models.Model):
+    slug = models.SlugField(_('slug'), max_length=100 , unique = True , blank = True , null = True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='exercises', verbose_name=_('course'))
     title = models.CharField(_('title'),max_length=255)
     text = models.TextField( _('text'),blank=True, null=True)
@@ -58,3 +59,13 @@ class CourseEnrollment(models.Model):
     
 
 
+class ExerciseSubmission(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='exercise_submissions',verbose_name=_('student'))
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='submissions',verbose_name=_('exercise'))
+    text = models.TextField( _('text'),blank=True, null=True)
+    file = models.FileField(_('file'), upload_to='exercise_submissions/', blank=True, null=True)
+    submission_date = models.DateField(_('submission_date'),auto_now_add=True)
+
+    def __str__(self):
+        return self.exercise.course.title
+    

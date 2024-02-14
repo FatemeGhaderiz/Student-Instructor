@@ -2,7 +2,7 @@ from ..models import Course , Content, Exercise ,Announcement
 from users.models import BaseUser
 import datetime
 
-
+from django.utils.text import slugify
 
 
 def create_content(*, course: str, title: str, file: str , text:str):
@@ -19,7 +19,7 @@ def create_exercise(*, course: str, title: str, file: str , text:str , deadline 
      
 
      exercise =Exercise.objects.create(
-        course=Course.objects.get(slug=course), title=title, file=file, text=text, deadline=deadline
+        course=Course.objects.get(slug=course), title=title, file=file, text=text, deadline=deadline, slug=slugify(title),
     )
      return exercise
 

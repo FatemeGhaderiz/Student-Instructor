@@ -18,6 +18,10 @@ def course_detail(*, slug:str , user:BaseUser):
     return course
          
          
-    
+   
 
-    
+def course_instructor(*, user:BaseUser ) :
+
+
+    queryset = Course.objects.filter(instructor=user)
+    return queryset
