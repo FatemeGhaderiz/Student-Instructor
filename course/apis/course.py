@@ -9,12 +9,13 @@ from django.urls import reverse
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from ..models import Course
-from ..services.course import create_course , delete_course
+from ..services.course import create_course, delete_course
 
 from ..permissions import IsContentCreatorOrReadOnly
 
+
 class AddCourseApi(APIView):
-   
+
     permission_classes = [IsAuthenticated]
 
     class InputSerializer(serializers.Serializer):
@@ -27,11 +28,10 @@ class AddCourseApi(APIView):
 
         class Meta:
             model = Course
-            fields = ("slug","title", "category", "is_public" ,"instructor")
+            fields = ("slug", "title", "category", "is_public", "instructor")
 
         def get_instructor(self, course):
             return course.instructor.email
-
 
     @extend_schema(
         responses=OutPutSerializer,
@@ -52,81 +52,65 @@ class AddCourseApi(APIView):
                 {"detail": "Database Error - " + str(ex)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(self.OutPutSerializer(query, context={"request":request}).data)
+        return Response(self.OutPutSerializer(query, context={"request": request}).data)
 
- 
 
 class UpdateAndDeleteCourseApi(APIView):
-   
-    permission_classes = [IsAuthenticated , IsContentCreatorOrReadOnly]
+
+    permission_classes = [IsAuthenticated, IsContentCreatorOrReadOnly]
 
     class UpdaeSerializer(serializers.ModelSerializer):
-        instructor = serializers.SerializerMethodField("get_instructor" , read_only=True)
+        instructor = serializers.SerializerMethodField("get_instructor", read_only=True)
 
         class Meta:
             model = Course
-            fields = ("title", "category", "is_public" ,"instructor")
+            fields = ("title", "category", "is_public", "instructor")
 
         def get_instructor(self, course):
             return course.instructor.email
-
 
     @extend_schema(
         responses=UpdaeSerializer,
         request=UpdaeSerializer,
     )
-    def put(self , request, slug):
-        instance = Course.objects.get(slug=slug)  
-        self.check_object_permissions(request,instance)
-        serializer = self.UpdaeSerializer(data=request.data , partial = True)
+    def put(self, request, slug):
+        instance = Course.objects.get(slug=slug)
+        self.check_object_permissions(request, instance)
+        serializer = self.UpdaeSerializer(data=request.data, partial=True)
         if serializer.is_valid():
-            try :
-                query = serializer.update(instance=instance, validated_data=serializer.validated_data)
-            except  Exception as ex:
+            try:
+                query = serializer.update(
+                    instance=instance, validated_data=serializer.validated_data
+                )
+            except Exception as ex:
 
                 return Response(
                     {"detail": "Database Error - " + str(ex)},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            return Response(self.UpdaeSerializer(query, context={"request":request}).data)
-
-
-
+            return Response(
+                self.UpdaeSerializer(query, context={"request": request}).data
+            )
 
     def delete(self, request, slug):
 
         try:
-            instance = Course.objects.get(slug=slug)  
-            self.check_object_permissions(request,instance)
+            instance = Course.objects.get(slug=slug)
+            self.check_object_permissions(request, instance)
             instance.delete()
         except Exception as ex:
             return Response(
                 {"detail": "Database Error - " + str(ex)},
                 status=status.HTTP_400_BAD_REQUEST,
-            )    
-        return Response({"messege" : " deleted"} , status=status.HTTP_204_NO_CONTENT)
-    
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
+            )
+        return Response({"messege": " deleted"}, status=status.HTTP_204_NO_CONTENT)
 
 
 # class UDCourseViwe(APIView):
 #     serializer_class = CourseSerializer
 #     permission_classes = [IsAuthenticated , IsUser]
 
-    
+
 #     class InputSerializer(serializers.Serializer):
 #         title = serializers.CharField(max_length=255)
 #         category = serializers.CharField(max_length=255)
@@ -141,21 +125,19 @@ class UpdateAndDeleteCourseApi(APIView):
 
 #         def get_instructor(self, course):
 #             return course.instructor.email
-    
 
 
 #     def put(self , request, pk=None):
-#         instance = Course.objects.get(id=pk)  
+#         instance = Course.objects.get(id=pk)
 #         self.check_object_permissions(request,instance)
 #         serializer = self.InputSerializer(data=request.data , partial = True)
 #         if serializer.is_valid():
 #             serializer.update(instance=instance, validated_data=serializer.validated_data)
 #             return Response({"messege" : " update"})
-        
+
 
 #     def delete(self , request, pk=None):
-#         instance = Course.objects.get(id=pk)  
+#         instance = Course.objects.get(id=pk)
 #         self.check_object_permissions(request,instance)
 #         instance.delete()
 #         return Response({"messege" : " deleted"})
-

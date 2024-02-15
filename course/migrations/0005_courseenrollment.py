@@ -8,17 +8,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('course', '0004_announcement_content_exercise'),
+        ("course", "0004_announcement_content_exercise"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CourseEnrollment',
+            name="CourseEnrollment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='enrollments', to='course.course', verbose_name='course')),
-                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='courses_enrolled', to=settings.AUTH_USER_MODEL, verbose_name='student')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="enrollments",
+                        to="course.course",
+                        verbose_name="course",
+                    ),
+                ),
+                (
+                    "student",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="courses_enrolled",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="student",
+                    ),
+                ),
             ],
         ),
     ]

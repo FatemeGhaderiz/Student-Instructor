@@ -1,33 +1,36 @@
-from ..models import Course , Content, Exercise ,Announcement
+from ..models import Course, Content, Exercise, Announcement
 from users.models import BaseUser
 import datetime
 
 from django.utils.text import slugify
 
 
-def create_content(*, course: str, title: str, file: str , text:str):
-     
+def create_content(*, course: str, title: str, file: str, text: str):
 
-     content =Content.objects.create(
+    content = Content.objects.create(
         course=Course.objects.get(slug=course), title=title, file=file, text=text
     )
-     return content
+    return content
 
 
+def create_exercise(
+    *, course: str, title: str, file: str, text: str, deadline: datetime.date
+):
 
-def create_exercise(*, course: str, title: str, file: str , text:str , deadline : datetime.date):
-     
-
-     exercise =Exercise.objects.create(
-        course=Course.objects.get(slug=course), title=title, file=file, text=text, deadline=deadline, slug=slugify(title),
+    exercise = Exercise.objects.create(
+        course=Course.objects.get(slug=course),
+        title=title,
+        file=file,
+        text=text,
+        deadline=deadline,
+        slug=slugify(title),
     )
-     return exercise
+    return exercise
 
 
-def create_announcement(*, course: str, title: str , text:str ):
-     
+def create_announcement(*, course: str, title: str, text: str):
 
-     announcement =Announcement.objects.create(
+    announcement = Announcement.objects.create(
         course=Course.objects.get(slug=course), title=title, text=text
     )
-     return announcement
+    return announcement

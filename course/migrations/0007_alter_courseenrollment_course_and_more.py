@@ -8,19 +8,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('course', '0006_alter_courseenrollment_course_and_more'),
+        ("course", "0006_alter_courseenrollment_course_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='courseenrollment',
-            name='course',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='enrollments', to='course.course', verbose_name='course'),
+            model_name="courseenrollment",
+            name="course",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="enrollments",
+                to="course.course",
+                verbose_name="course",
+            ),
         ),
         migrations.AlterField(
-            model_name='courseenrollment',
-            name='student',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='courses_enrolled', to=settings.AUTH_USER_MODEL, verbose_name='student'),
+            model_name="courseenrollment",
+            name="student",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="courses_enrolled",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="student",
+            ),
         ),
     ]

@@ -7,38 +7,102 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('course', '0003_alter_course_slug'),
+        ("course", "0003_alter_course_slug"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Announcement',
+            name="Announcement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='title')),
-                ('text', models.TextField()),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='announcements', to='course.course', verbose_name='course')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="title")),
+                ("text", models.TextField()),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="announcements",
+                        to="course.course",
+                        verbose_name="course",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Content',
+            name="Content",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='title')),
-                ('file', models.FileField(blank=True, null=True, upload_to='contents/', verbose_name='file')),
-                ('text', models.TextField(blank=True, null=True)),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contents', to='course.course', verbose_name='course')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="title")),
+                (
+                    "file",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to="contents/",
+                        verbose_name="file",
+                    ),
+                ),
+                ("text", models.TextField(blank=True, null=True)),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="contents",
+                        to="course.course",
+                        verbose_name="course",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Exercise',
+            name="Exercise",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='title')),
-                ('text', models.TextField(blank=True, null=True)),
-                ('file', models.FileField(blank=True, null=True, upload_to='contents/', verbose_name='file')),
-                ('deadline', models.DateField()),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='exercises', to='course.course', verbose_name='course')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="title")),
+                ("text", models.TextField(blank=True, null=True)),
+                (
+                    "file",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to="contents/",
+                        verbose_name="file",
+                    ),
+                ),
+                ("deadline", models.DateField()),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="exercises",
+                        to="course.course",
+                        verbose_name="course",
+                    ),
+                ),
             ],
         ),
     ]
