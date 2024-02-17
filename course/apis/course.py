@@ -55,6 +55,18 @@ class AddCourseApi(APIView):
         return Response(self.OutPutSerializer(query, context={"request": request}).data)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 class UpdateAndDeleteCourseApi(APIView):
 
     permission_classes = [IsAuthenticated, IsContentCreatorOrReadOnly]

@@ -158,8 +158,7 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 SPECTACULAR_SETTINGS = {
-    "TITLE": "wall API",
-    "DESCRIPTION": "an API doc for wall project",
+    "TITLE": "SaaFaa API",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
